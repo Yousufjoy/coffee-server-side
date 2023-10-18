@@ -27,6 +27,18 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    // Connect to the "coffeeDB" database and access its "coffee" collection
+
+    const coffeeCollection = client.db("coffeeDB").collection("coffee");
+
+    app.post("/coffee", async (req, res) => {
+      const newCoffee = req.body;
+      console.log(newCoffee); // Mongo db te add korte chaile google e search node mongoDb crud then - usage examples-insert operations-inserta a document
+      const result = await coffeeCollection.insertOne(newCoffee);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
