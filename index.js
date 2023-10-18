@@ -57,12 +57,32 @@ async function run() {
       res.send(result);
     });
 
-    // 4) Update
+    // 4) Find specific product, here i am getting the speicifc product i want to update
 
     app.get("/coffee/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await coffeeCollection.findOne(query);
+      res.send(result);
+    });
+
+    // 5) Update single coffee information
+
+    app.put("/coffee/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true }; // upsert mane hocche thakle tumi update korba na thakle notun ekta create korba
+      const updatedCoffee = req.body;
+      const coffee = {
+        $set: {
+          name: updatedCoffee.name,
+          quantity: updatedCoffee.quantity,
+          supplier: updatedCoffee.supplier,
+          category: updatedCoffee.category,
+          photo: updatedCoffee.photo,
+        },
+      };
+      const result = await coffeeCollection.updateOne(filter, coffee, options);
       res.send(result);
     });
 
