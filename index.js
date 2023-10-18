@@ -32,10 +32,19 @@ async function run() {
 
     const coffeeCollection = client.db("coffeeDB").collection("coffee");
 
+    // 1) CREATE/POST
     app.post("/coffee", async (req, res) => {
       const newCoffee = req.body;
       console.log(newCoffee); // Mongo db te add korte chaile google e search node mongoDb crud then - usage examples-insert operations-inserta a document
       const result = await coffeeCollection.insertOne(newCoffee);
+      res.send(result);
+    });
+
+    // 2) READ/GET all the data
+
+    app.get("/coffee", async (req, res) => {
+      const cursor = coffeeCollection.find(); // cursor mane ekta pointer set kortesi oi collection er moddhe
+      const result = await cursor.toArray(); // joto gula item ase sob diye dibe
       res.send(result);
     });
 
