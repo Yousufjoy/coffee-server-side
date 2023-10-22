@@ -31,12 +31,21 @@ async function run() {
     // Connect to the "coffeeDB" database and access its "coffee" collection
 
     const coffeeCollection = client.db("coffeeDB").collection("coffee");
-
+    const userCollection = client.db("coffeeDB").collection("user");
     // 1) CREATE/POST
     app.post("/coffee", async (req, res) => {
       const newCoffee = req.body;
       console.log(newCoffee); // Mongo db te add korte chaile google e search node mongoDb crud then - usage examples-insert operations-inserta a document
       const result = await coffeeCollection.insertOne(newCoffee);
+      res.send(result);
+    });
+
+    // 1.1) CREATE/POST for signin user
+
+    app.post("/user", async (req, res) => {
+      const user = req.body;
+      console.log(user);
+      const result = await userCollection.insertOne(user);
       res.send(result);
     });
 
