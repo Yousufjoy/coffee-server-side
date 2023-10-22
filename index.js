@@ -40,16 +40,7 @@ async function run() {
       res.send(result);
     });
 
-    // 1.1) CREATE/POST for signin user
-
-    app.post("/user", async (req, res) => {
-      const user = req.body;
-      console.log(user);
-      const result = await userCollection.insertOne(user);
-      res.send(result);
-    });
-
-    // 2) READ/GET all the data
+    // 2) READ/GET all the data /multiple documents
 
     app.get("/coffee", async (req, res) => {
       const cursor = coffeeCollection.find(); // cursor mane ekta pointer set kortesi oi collection er moddhe
@@ -93,6 +84,25 @@ async function run() {
       };
       const result = await coffeeCollection.updateOne(filter, coffee, options);
       res.send(result);
+    });
+
+    // user related apis
+
+    // 1.1) CREATE/POST for signin user
+
+    app.post("/user", async (req, res) => {
+      const user = req.body;
+      console.log(user);
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+    });
+
+    // 2.1) READ/GET all/multiple documents the for signin user
+
+    app.get("/user", async (req, res) => {
+      const cursor = userCollection.find();
+      const users = await cursor.toArray();
+      res.send(users);
     });
 
     // Send a ping to confirm a successful connection
